@@ -12,7 +12,7 @@ namespace ariel
 
     void Cowboy::shoot(Character* enemy){}
 
-    bool Cowboy::hasBullets() const{
+    bool Cowboy::hasbullets() const{
         return bullets > 0;
     }
 

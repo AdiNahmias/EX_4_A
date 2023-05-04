@@ -6,7 +6,7 @@ namespace ariel
     
 
     YoungNinja::YoungNinja(const string& name, const Point& location)
-    :Ninja(name, location,30,30)
+    :Ninja(name, location,100,14)
     {}
     
 }
