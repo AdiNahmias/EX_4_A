@@ -8,6 +8,14 @@ namespace ariel
         this->y = y;
     }
 
+    double Point::getX(){
+        return this->x;
+    }
+
+    double Point::getY(){
+        return this->x;
+    }
+
 
     double Point::distance(const Point &other){
        

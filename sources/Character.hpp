@@ -18,7 +18,8 @@ namespace ariel
     public:
     Character(const string& name, const Point& location, int hp);
     Character(const string& name, const Point& location);
-    bool isAlive() const;
+    string getName();
+    bool isAlive();
     double distance(const Character* other) const;
     void hit(int amount);
     const string& getName() const;

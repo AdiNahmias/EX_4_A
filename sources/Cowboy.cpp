@@ -10,6 +10,8 @@ namespace ariel
         :Character(name, location), bullets(6)
     {}
 
+    
+
     void Cowboy::shoot(Character* enemy){}
 
     bool Cowboy::hasbullets() const{

@@ -15,9 +15,13 @@ Character::Character(const string& name, const Point& location)
     : name(name), location(location)
 {}
 
+string Character::getName(){
+    return this->name;
+}
+
  
 
-bool Character::isAlive() const {
+bool Character::isAlive(){
     return hp > 0;
 }
 

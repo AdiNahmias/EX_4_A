@@ -17,7 +17,7 @@ namespace ariel {
 
     int Team::stillAlive() const {
         
-        return 1;
+        return 0;
     }
 
     void Team::print() const {
