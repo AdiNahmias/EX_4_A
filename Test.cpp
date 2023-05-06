@@ -25,6 +25,7 @@ TEST_CASE("Checking the constructors")
     CHECK(yogi->getSpeed() == 14);
 }
 
+
 TEST_CASE("Checking the distance between two positions")
 {
     Point p1(1.0, 2.0);
@@ -50,6 +51,7 @@ TEST_CASE("Checking the distance between two positions")
     CHECK(tom->distance(sushi) == sushi->distance(tom));
     CHECK_FALSE(titi->distance(sushi) == titi->distance(tom));
 }
+
 
 TEST_CASE("Checking if the character is alive")
 {
@@ -84,10 +86,10 @@ TEST_CASE("Checking if the character is alive")
     //after bob is dead
     CHECK_THROWS(bob->shoot(tom));
     
-
 }
 
-TEST_CASE("Checking if the character has bullets"){
+
+TEST_CASE("Checking if the cowboy has bullets"){
 
     Point p1(1.0, 2.0);
     Point p2(3.0, 4.0);
@@ -113,7 +115,67 @@ TEST_CASE("Checking if the character has bullets"){
     }
     CHECK_EQ(jimi->getBullet(), 36);
     CHECK_EQ(bob->getBullet(), 31);
+  
+}
+
+
+TEST_CASE("Checking ninja function"){
+
+    Point p1(1.0, 2.0);
+    Point p2(3.0, 4.0);
+    Point p3(100.0,200.0);
+    TrainedNinja *titi = new TrainedNinja("Titi", p1);
+    OldNinja *sushi = new OldNinja("sushi", p2);
+    titi->move(sushi);
+    CHECK(titi->distance(sushi) == 0.0);
+    //titi and sushi at the same place
+    CHECK_THROWS(sushi->move(titi));
+    CHECK_NOTHROW(titi->slash(sushi));
+    CHECK_NOTHROW(sushi->slash(titi));
+    CHECK(sushi->getHP() == 119);
+    sushi->slash(titi);
+    CHECK_EQ(titi->getHP(), 89);
+    YoungNinja *yogi = new YoungNinja("Yogi", p3);
+    //Yogi is more than a meter away from Titi
+    CHECK_THROWS(titi->slash(yogi));
+    yogi->move(sushi);
+    CHECK(titi->distance(yogi) == 0.0);
+    CHECK_NOTHROW(titi->slash(yogi));
+    CHECK_NOTHROW(yogi->slash(sushi));
     
 }
+
+
+TEST_CASE("Checking team function"){
+
+    Point p1(1.0, 2.0);
+    Point p2(3.0, 4.0);
+    Point p3(100.0,200.0);
+    TrainedNinja *titi = new TrainedNinja("Titi", p1);
+    OldNinja *sushi = new OldNinja("sushi", p2);
+    //sushi is the leader of team A
+    Team team_A(sushi);
+    team_A.add(titi);
+    YoungNinja *yogi = new YoungNinja("Yogi", p3);
+    Cowboy *tom = new Cowboy("Tom", p1);
+    //yogi is the leader of team B
+    Team team_B(yogi);
+    team_B.add(tom);
+    CHECK_NOTHROW(team_A.attack(&team_B));
+    CHECK_NOTHROW(team_B.attack(&team_A));
+    CHECK_NOTHROW(team_A.print());
+    CHECK_NOTHROW(team_B.print());
+    int count = 0;
+    if(titi->isAlive()){
+        count++;
+    }
+    if (sushi->isAlive()) {
+        count++;
+    }
+    CHECK_EQ(team_A.stillAlive(), count);
+    
+}
+
+
 
 
