@@ -15,6 +15,10 @@ Character::Character(const string& name, const Point& location)
     : name(name), location(location)
 {}
 
+int Character::getHP(){
+    return  this->hp;
+}
+
 string Character::getName(){
     return this->name;
 }
@@ -33,9 +37,7 @@ void Character::hit(int amount) {
     hp -= amount;
 }
 
-const std::string& Character::getName() const {
-    return name;
-}
+
 
 const Point& Character::getLocation() const {
     return location;

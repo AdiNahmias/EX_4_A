@@ -1,12 +1,11 @@
 #include "doctest.h"
 #include "sources/Team.hpp"
 
-
-
 using namespace std;
 using namespace ariel;
 
-TEST_CASE("Checking the constructors"){
+TEST_CASE("Checking the constructors")
+{
     Point p1(1.0, 2.0);
     Point p2(3.0, 4.0);
     CHECK_EQ(p1.getX(), 1.0);
@@ -21,10 +20,13 @@ TEST_CASE("Checking the constructors"){
     CHECK(sushi->getName() == "sushi");
     CHECK(titi->getName() == "Titi");
     CHECK(yogi->getName() == "Yogi");
-    
+    CHECK(sushi->getSpeed() == 8);
+    CHECK(titi->getSpeed() == 12);
+    CHECK(yogi->getSpeed() == 14);
 }
 
-TEST_CASE("Checking the distance between two positions"){
+TEST_CASE("Checking the distance between two positions")
+{
     Point p1(1.0, 2.0);
     Point p2(3.0, 4.0);
     CHECK(p1.distance(p2) == 2.828427);
@@ -40,9 +42,17 @@ TEST_CASE("Checking the distance between two positions"){
     CHECK(p5.distance(p6) == 3);
     CHECK_EQ(p5.distance(p6), p6.distance(p5));
 
+    TrainedNinja *titi = new TrainedNinja("Titi", p1);
+    Cowboy *tom = new Cowboy("Tom", p1);
+    CHECK(titi->distance(tom) == 0);
+    OldNinja *sushi = new OldNinja("sushi", p2);
+    CHECK(titi->distance(sushi) == 2.828427);
+    CHECK(tom->distance(sushi) == sushi->distance(tom));
+    CHECK_FALSE(titi->distance(sushi) == titi->distance(tom));
 }
 
-TEST_CASE("Checking if the character is alive"){
+TEST_CASE("Checking if the character is alive")
+{
 
     Point p1(1.0, 2.0);
     Point p2(3.0, 4.0);
@@ -60,13 +70,50 @@ TEST_CASE("Checking if the character is alive"){
     CHECK(yogi.isAlive());
     yogi.hit(50);
     CHECK_FALSE(yogi.isAlive());
-    Cowboy tom("Tom", p1);
-    tom.hit(110);
-    CHECK_FALSE(tom.isAlive());
-
+    Cowboy *tom = new Cowboy("Tom", p1);
+    Cowboy *jimi = new Cowboy("Jimi", p1);
+    Cowboy *bob = new Cowboy("Bob", p1);
+    for(int i = 0; i < 11; i++){
+        if (jimi->hasbullets()){
+            jimi->shoot(tom);
+        }else{
+            bob->shoot(tom);
+        }
+    }
+    CHECK_FALSE(tom->isAlive());
+    //after bob is dead
+    CHECK_THROWS(bob->shoot(tom));
+    
 
 }
 
+TEST_CASE("Checking if the character has bullets"){
 
+    Point p1(1.0, 2.0);
+    Point p2(3.0, 4.0);
+    Cowboy *tom = new Cowboy("Tom", p1);
+    Cowboy *jimi = new Cowboy("Jimi", p1);
+    Cowboy *bob = new Cowboy("Bob", p1);
+    for(int i = 0; i < 11; i++){
+        if (jimi->hasbullets()){
+            jimi->shoot(tom);
+        }else{
+            bob->shoot(tom);
+        }
+    }
+    CHECK_EQ(jimi->getBullet(),0);
+    //after jimi has no bullets
+    CHECK_THROWS(jimi->shoot(bob));
+    CHECK_EQ(bob->getBullet(),1);
+    jimi->reload();
+    CHECK_EQ(jimi->getBullet(), 6);
+    for (int i = 0; i < 5; i++) {
+       jimi->reload();
+       bob->reload();
+    }
+    CHECK_EQ(jimi->getBullet(), 36);
+    CHECK_EQ(bob->getBullet(), 31);
+    
+}
 
 

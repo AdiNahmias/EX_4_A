@@ -6,6 +6,10 @@ namespace ariel
         : Character(name, location, hp), speed(speed)
     {}
 
+    int Ninja::getSpeed(){
+        return this->speed;
+    }
+
     void Ninja::move(Character* enemy){}
 
     void Ninja::slash(Character* enemy){} 

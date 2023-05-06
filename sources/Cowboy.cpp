@@ -10,6 +10,10 @@ namespace ariel
         :Character(name, location), bullets(6)
     {}
 
+    int Cowboy::getBullet(){
+        return this->bullets;
+    }
+
     
 
     void Cowboy::shoot(Character* enemy){}
