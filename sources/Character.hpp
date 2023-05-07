@@ -12,11 +12,11 @@ namespace ariel
     private:
     string name;
     Point location;
-    int hp;
+    int hitp;
         
 
     public:
-    Character(const string& name, const Point& location, int hp);
+    Character(const string& name, const Point& location, int hitp);
     Character(const string& name, const Point& location);
     int getHP();
     string getName();

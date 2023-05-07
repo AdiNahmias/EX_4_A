@@ -4,10 +4,10 @@
 namespace ariel {
     class Point {
     private:
-        double x;
-        double y;
+        double p_x;
+        double p_y;
     public:
-        Point(double x, double y);
+        Point(double p_x, double p_y);
         double getX();
         double getY();
         double distance(const Point& other);

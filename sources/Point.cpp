@@ -3,17 +3,17 @@
 
 namespace ariel
 {
-    Point::Point(double x, double y){
-        this->x = x;
-        this->y = y;
+    Point::Point(double p_x, double p_y){
+        this->p_x = p_x;
+        this->p_y = p_y;
     }
 
     double Point::getX(){
-        return this->x;
+        return this->p_x;
     }
 
     double Point::getY(){
-        return this->x;
+        return this->p_y;
     }
 
 

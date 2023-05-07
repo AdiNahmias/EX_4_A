@@ -2,8 +2,8 @@
 
 namespace ariel
 {
-    Cowboy::Cowboy(const std::string& name, const Point& location, int hp)
-        : Character(name, location, hp), bullets(6)
+    Cowboy::Cowboy(const std::string& name, const Point& location, int hitp)
+        : Character(name, location, hitp), bullets(6)
     {}
 
     Cowboy::Cowboy(const std::string& name, const Point& location)

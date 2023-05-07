@@ -2,8 +2,8 @@
 
 namespace ariel
 {
-    Ninja::Ninja(const std::string& name, const Point& location, int hp, int speed)
-        : Character(name, location, hp), speed(speed)
+    Ninja::Ninja(const std::string& name, const Point& location, int hitp, int speed)
+        : Character(name, location, hitp), speed(speed)
     {}
 
     int Ninja::getSpeed(){

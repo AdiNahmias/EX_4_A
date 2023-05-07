@@ -7,8 +7,8 @@ using namespace std;
 namespace ariel{
 
 
-Character::Character(const string& name, const Point& location, int hp)
-    : name(name), location(location), hp(hp)
+Character::Character(const string& name, const Point& location, int hitp)
+    : name(name), location(location), hitp(hitp)
 {}
 
 Character::Character(const string& name, const Point& location)
@@ -16,7 +16,7 @@ Character::Character(const string& name, const Point& location)
 {}
 
 int Character::getHP(){
-    return  this->hp;
+    return  this->hitp;
 }
 
 string Character::getName(){
@@ -26,7 +26,7 @@ string Character::getName(){
  
 
 bool Character::isAlive(){
-    return hp > 0;
+    return hitp > 0;
 }
 
 double Character::distance(const Character* other) const {
@@ -34,7 +34,7 @@ double Character::distance(const Character* other) const {
 }
 
 void Character::hit(int amount) {
-    hp -= amount;
+    hitp -= amount;
 }
 
 
