@@ -43,6 +43,8 @@ const Point& Character::getLocation() const {
     return location;
 }
 
-void Character::print(){}
+string Character::print(){
+    return "hii";
+}
 
 }

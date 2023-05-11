@@ -10,12 +10,12 @@ namespace ariel
     private:
         int bullets;
     public:
-        Cowboy(const std::string& name, const Point& location, int hitp);
         Cowboy(const std::string& name, const Point& location);
         int getBullet();
         void shoot(Character* enemy);
         bool hasbullets() const;
         void reload();
+        string print() override;
         
     };
 }

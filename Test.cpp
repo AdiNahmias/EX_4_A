@@ -212,7 +212,7 @@ TEST_CASE("Checking that a dead character can't do anything"){
     CHECK_THROWS(tom->reload());
     CHECK_THROWS(tom->getLocation());
     CHECK_THROWS(tom->hit(7));
-    CHECK_FALSE(tom->isAlive());
+    CHECK(tom->isAlive()==false);
 }
 
 

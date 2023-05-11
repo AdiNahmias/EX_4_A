@@ -2,19 +2,15 @@
 
 namespace ariel
 {
-    Cowboy::Cowboy(const std::string& name, const Point& location, int hitp)
-        : Character(name, location, hitp), bullets(6)
+    Cowboy::Cowboy(const std::string& name, const Point& location)
+        : Character(name, location, 110), bullets(6)
     {}
 
-    Cowboy::Cowboy(const std::string& name, const Point& location)
-        :Character(name, location), bullets(6)
-    {}
 
     int Cowboy::getBullet(){
         return this->bullets;
     }
 
-    
 
     void Cowboy::shoot(Character* enemy){}
 
@@ -24,6 +20,11 @@ namespace ariel
 
     void Cowboy::reload(){
         bullets = 6;
+    }
+
+    string Cowboy::print(){
+
+        return "adii";
     }
 
     
