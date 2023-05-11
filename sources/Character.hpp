@@ -18,6 +18,10 @@ namespace ariel
     public:
     Character(const string& name, const Point& location, int hitp);
     Character(const string& name, const Point& location);
+    Character(const Character& other); // Copy constructor
+    Character& operator=(const Character& other); // Copy assignment operator
+    Character(Character&& other)noexcept; // Move constructor
+    Character& operator=(Character&& other)noexcept; 
     virtual ~Character() = default;
     int getHP();
     string getName();
