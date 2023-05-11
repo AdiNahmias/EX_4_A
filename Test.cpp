@@ -13,6 +13,8 @@ TEST_CASE("Checking the constructors")
     CHECK_EQ(p1.getY(), 2.0);
     CHECK_EQ(p2.getY(), 4.0);
     Cowboy *tom = new Cowboy("Tom", p1);
+    //cowboy HP
+    CHECK(tom->getHP() == 110);
     OldNinja *sushi = new OldNinja("sushi", p2);
     TrainedNinja *titi = new TrainedNinja("Titi", p1);
     YoungNinja *yogi = new YoungNinja("Yogi", p2);
@@ -20,9 +22,14 @@ TEST_CASE("Checking the constructors")
     CHECK(sushi->getName() == "sushi");
     CHECK(titi->getName() == "Titi");
     CHECK(yogi->getName() == "Yogi");
+    //ninja speed
     CHECK(sushi->getSpeed() == 8);
     CHECK(titi->getSpeed() == 12);
     CHECK(yogi->getSpeed() == 14);
+    //ninja HP
+    CHECK(sushi->getHP() == 150);
+    CHECK(titi->getHP() == 120);
+    CHECK(yogi->getHP() == 100);
 }
 
 
@@ -53,8 +60,7 @@ TEST_CASE("Checking the distance between two positions")
 }
 
 
-TEST_CASE("Checking if the character is alive")
-{
+TEST_CASE("Checking if the character is alive"){
 
     Point p1(1.0, 2.0);
     Point p2(3.0, 4.0);
@@ -83,7 +89,7 @@ TEST_CASE("Checking if the character is alive")
         }
     }
     CHECK_FALSE(tom->isAlive());
-    //after bob is dead
+    //after tom is dead
     CHECK_THROWS(bob->shoot(tom));
     
 }
@@ -174,6 +180,38 @@ TEST_CASE("Checking team function"){
     }
     CHECK_EQ(team_A.stillAlive(), count);
     
+}
+
+TEST_CASE("Checking adding same character to another team"){
+    Point p1(1.0, 2.0);
+    Cowboy *cab = new Cowboy("Cabi" , p1);
+    OldNinja *sushi = new OldNinja("sushi", p1);
+    Team team_b(cab);
+    Team team_a(sushi);
+    CHECK_THROWS(team_a.add(cab));
+    CHECK_THROWS(team_b.add(sushi));
+}
+
+TEST_CASE("Checking that a dead character can't do anything"){
+
+    Point p1(1.0, 2.0);
+    Cowboy *tom = new Cowboy("Tom", p1);
+    Cowboy *jimi = new Cowboy("Jimi", p1);
+    Cowboy *bob = new Cowboy("Bob", p1);
+    for(int i = 0; i < 11; i++){
+        if (jimi->hasbullets()){
+            jimi->shoot(tom);
+        }else{
+            bob->shoot(tom);
+        }
+    }
+    //tom is dead and cant do anything
+    CHECK_THROWS(tom->shoot(bob));
+    CHECK_THROWS(tom->hasbullets());
+    CHECK_THROWS(tom->getBullet());
+    CHECK_THROWS(tom->reload());
+    CHECK_THROWS(tom->getLocation());
+    CHECK_THROWS(tom->hit(7));
 }
 
 
