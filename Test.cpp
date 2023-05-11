@@ -4,6 +4,8 @@
 using namespace std;
 using namespace ariel;
 
+
+
 TEST_CASE("Checking the constructors")
 {
     Point p1(1.0, 2.0);
@@ -33,6 +35,8 @@ TEST_CASE("Checking the constructors")
 }
 
 
+
+
 TEST_CASE("Checking the distance between two positions")
 {
     Point p1(1.0, 2.0);
@@ -58,6 +62,111 @@ TEST_CASE("Checking the distance between two positions")
     CHECK(tom->distance(sushi) == sushi->distance(tom));
     CHECK_FALSE(titi->distance(sushi) == titi->distance(tom));
 }
+
+
+
+
+TEST_CASE("Checking Cowboy function"){
+
+    Point p1(1.0, 2.0);
+    Point p2(3.0, 4.0);
+    Cowboy *tom = new Cowboy("Tom", p1);
+    Cowboy *jimi = new Cowboy("Jimi", p1);
+    Cowboy *bob = new Cowboy("Bob", p1);
+    for(int i = 0; i < 11; i++){
+        if (jimi->hasbullets()){
+            jimi->shoot(tom);
+        }else{
+            bob->shoot(tom);
+        }
+    }
+    CHECK_EQ(jimi->getBullet(),0);
+    //after jimi has no bullets
+    CHECK_THROWS(jimi->shoot(bob));
+    CHECK_EQ(bob->getBullet(),1);
+    jimi->reload();
+    CHECK_EQ(jimi->getBullet(), 6);
+    for (int i = 0; i < 5; i++) {
+       jimi->reload();
+       bob->reload();
+    }
+    CHECK_EQ(jimi->getBullet(), 36);
+    CHECK_EQ(bob->getBullet(), 31);
+  
+}
+
+
+
+TEST_CASE("Checking Ninja function"){
+
+    Point p1(1.0, 2.0);
+    Point p2(3.0, 4.0);
+    Point p3(100.0,200.0);
+    TrainedNinja *titi = new TrainedNinja("Titi", p1);
+    OldNinja *sushi = new OldNinja("sushi", p2);
+    titi->move(sushi);
+    CHECK(titi->distance(sushi) == 0.0);
+    //titi and sushi at the same place
+    CHECK_THROWS(sushi->move(titi));
+    CHECK_NOTHROW(titi->slash(sushi));
+    CHECK_NOTHROW(sushi->slash(titi));
+    CHECK(sushi->getHP() == 119);
+    sushi->slash(titi);
+    CHECK_EQ(titi->getHP(), 89);
+    YoungNinja *yogi = new YoungNinja("Yogi", p3);
+    //Yogi is more than a meter away from Titi
+    CHECK_THROWS(titi->slash(yogi));
+    yogi->move(sushi);
+    CHECK(titi->distance(yogi) == 0.0);
+    CHECK_NOTHROW(titi->slash(yogi));
+    CHECK_NOTHROW(yogi->slash(sushi));
+    
+}
+
+
+
+TEST_CASE("Checking Team function"){
+
+    Point p1(1.0, 2.0);
+    Point p2(3.0, 4.0);
+    Point p3(100.0,200.0);
+    TrainedNinja *titi = new TrainedNinja("Titi", p1);
+    OldNinja *sushi = new OldNinja("sushi", p2);
+    //sushi is the leader of team A
+    Team team_A(sushi);
+    team_A.add(titi);
+    YoungNinja *yogi = new YoungNinja("Yogi", p3);
+    Cowboy *tom = new Cowboy("Tom", p1);
+    //yogi is the leader of team B
+    Team team_B(yogi);
+    team_B.add(tom);
+    CHECK_NOTHROW(team_A.attack(&team_B));
+    CHECK_NOTHROW(team_B.attack(&team_A));
+    CHECK_NOTHROW(team_A.print());
+    CHECK_NOTHROW(team_B.print());
+    int count = 0;
+    if(titi->isAlive()){
+        count++;
+    }
+    if (sushi->isAlive()) {
+        count++;
+    }
+    CHECK_EQ(team_A.stillAlive(), count);
+    
+}
+
+
+
+TEST_CASE("Checking adding same character to another team"){
+    Point p1(1.0, 2.0);
+    Cowboy *cab = new Cowboy("Cabi" , p1);
+    OldNinja *sushi = new OldNinja("sushi", p1);
+    Team team_b(cab);
+    Team team_a(sushi);
+    CHECK_THROWS(team_a.add(cab));
+    CHECK_THROWS(team_b.add(sushi));
+}
+
 
 
 TEST_CASE("Checking if the character is alive"){
@@ -94,104 +203,6 @@ TEST_CASE("Checking if the character is alive"){
     
 }
 
-
-TEST_CASE("Checking if the cowboy has bullets"){
-
-    Point p1(1.0, 2.0);
-    Point p2(3.0, 4.0);
-    Cowboy *tom = new Cowboy("Tom", p1);
-    Cowboy *jimi = new Cowboy("Jimi", p1);
-    Cowboy *bob = new Cowboy("Bob", p1);
-    for(int i = 0; i < 11; i++){
-        if (jimi->hasbullets()){
-            jimi->shoot(tom);
-        }else{
-            bob->shoot(tom);
-        }
-    }
-    CHECK_EQ(jimi->getBullet(),0);
-    //after jimi has no bullets
-    CHECK_THROWS(jimi->shoot(bob));
-    CHECK_EQ(bob->getBullet(),1);
-    jimi->reload();
-    CHECK_EQ(jimi->getBullet(), 6);
-    for (int i = 0; i < 5; i++) {
-       jimi->reload();
-       bob->reload();
-    }
-    CHECK_EQ(jimi->getBullet(), 36);
-    CHECK_EQ(bob->getBullet(), 31);
-  
-}
-
-
-TEST_CASE("Checking ninja function"){
-
-    Point p1(1.0, 2.0);
-    Point p2(3.0, 4.0);
-    Point p3(100.0,200.0);
-    TrainedNinja *titi = new TrainedNinja("Titi", p1);
-    OldNinja *sushi = new OldNinja("sushi", p2);
-    titi->move(sushi);
-    CHECK(titi->distance(sushi) == 0.0);
-    //titi and sushi at the same place
-    CHECK_THROWS(sushi->move(titi));
-    CHECK_NOTHROW(titi->slash(sushi));
-    CHECK_NOTHROW(sushi->slash(titi));
-    CHECK(sushi->getHP() == 119);
-    sushi->slash(titi);
-    CHECK_EQ(titi->getHP(), 89);
-    YoungNinja *yogi = new YoungNinja("Yogi", p3);
-    //Yogi is more than a meter away from Titi
-    CHECK_THROWS(titi->slash(yogi));
-    yogi->move(sushi);
-    CHECK(titi->distance(yogi) == 0.0);
-    CHECK_NOTHROW(titi->slash(yogi));
-    CHECK_NOTHROW(yogi->slash(sushi));
-    
-}
-
-
-TEST_CASE("Checking team function"){
-
-    Point p1(1.0, 2.0);
-    Point p2(3.0, 4.0);
-    Point p3(100.0,200.0);
-    TrainedNinja *titi = new TrainedNinja("Titi", p1);
-    OldNinja *sushi = new OldNinja("sushi", p2);
-    //sushi is the leader of team A
-    Team team_A(sushi);
-    team_A.add(titi);
-    YoungNinja *yogi = new YoungNinja("Yogi", p3);
-    Cowboy *tom = new Cowboy("Tom", p1);
-    //yogi is the leader of team B
-    Team team_B(yogi);
-    team_B.add(tom);
-    CHECK_NOTHROW(team_A.attack(&team_B));
-    CHECK_NOTHROW(team_B.attack(&team_A));
-    CHECK_NOTHROW(team_A.print());
-    CHECK_NOTHROW(team_B.print());
-    int count = 0;
-    if(titi->isAlive()){
-        count++;
-    }
-    if (sushi->isAlive()) {
-        count++;
-    }
-    CHECK_EQ(team_A.stillAlive(), count);
-    
-}
-
-TEST_CASE("Checking adding same character to another team"){
-    Point p1(1.0, 2.0);
-    Cowboy *cab = new Cowboy("Cabi" , p1);
-    OldNinja *sushi = new OldNinja("sushi", p1);
-    Team team_b(cab);
-    Team team_a(sushi);
-    CHECK_THROWS(team_a.add(cab));
-    CHECK_THROWS(team_b.add(sushi));
-}
-
 TEST_CASE("Checking that a dead character can't do anything"){
 
     Point p1(1.0, 2.0);
@@ -213,7 +224,41 @@ TEST_CASE("Checking that a dead character can't do anything"){
     CHECK_THROWS(tom->getLocation());
     CHECK_THROWS(tom->hit(7));
     CHECK(tom->isAlive()==false);
+
+    YoungNinja *yogi = new YoungNinja("Yogi", p1);
+    jimi->reload();
+    jimi->reload();
+    for (int i = 0; i < 10 ; i++){
+        tom->shoot(yogi);
+    }
+    CHECK_THROWS(yogi->getSpeed());
+    CHECK_THROWS(yogi->getLocation());
+    CHECK_THROWS(yogi->hit(7));
+    
 }
+
+
+TEST_CASE("Checking that after the character is dead it is impossible to run functions on it"){
+
+    Point p1(1.0, 2.0);
+    Cowboy *tom = new Cowboy("Tom", p1);
+    YoungNinja *yogi = new YoungNinja("Yogi", p1);
+    tom->reload();
+    for (int i = 0; i < 10 ; i++){
+        tom->shoot(yogi);
+    }
+    TrainedNinja *titi = new TrainedNinja("Titi", p1);
+    //tom is dead and cant do anything
+    CHECK_THROWS(tom->shoot(yogi));
+    CHECK_THROWS(tom->getLocation());
+    CHECK_THROWS(titi->move(yogi));
+    CHECK_THROWS(titi->slash(yogi));
+    CHECK_THROWS(yogi->hit(7));
+    CHECK(yogi->isAlive()==false);
+    CHECK_NOTHROW(yogi->isAlive());
+}
+
+
 
 
 
