@@ -26,9 +26,10 @@ namespace ariel
     int getHP();
     string getName();
     bool isAlive();
-    double distance(const Character* other) const;
+    double distance(Character* other);
     void hit(int amount);
-    const Point& getLocation() const;
+    Point& getLocation();
+    void setLocation(Point location);
     virtual string print();
        
     };

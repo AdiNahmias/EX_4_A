@@ -1,5 +1,7 @@
 #include "Point.hpp"
 #include <cmath>
+#include <string>
+using namespace std;
 
 namespace ariel
 {
@@ -17,17 +19,28 @@ namespace ariel
     }
 
 
-    double Point::distance(const Point &other){
-       
-        return 1.0;
+    double Point::distance(Point &other){
+        double d_x = other.getX() - p_x;
+        double d_y = other.getY() - p_y;
+        return std::sqrt(d_x * d_x + d_y * d_y);
     }
 
-    Point Point::moveTowards(const Point &src, const Point &dest, double dist){
-       
-        return Point(1.0, 1.0);
+    Point Point::moveTowards(Point &src, Point &dest, double dist){
+        double d_x = dest.getX() - src.getX();
+        double d_y = dest.getY() - src.getY();
+        double currentDistance = src.distance(dest);
+        if (currentDistance <= dist){
+            // Already within the given distance
+            return dest;
+        }
+        else{
+            double ratio = dist / currentDistance;
+            return Point(src.getX() + ratio * d_x, src.getY() + ratio * d_y);
+        }
     }
 
-    void Point::print(){
-    
+    string Point::print(){
+    string str = "(" + to_string(p_x) + "," + to_string(p_y) + ")";
+    return str;
     }
 }

@@ -19,32 +19,32 @@ Character::Character(const Character& other)
         : name(other.name), location(other.location), hitp(other.hitp)
 {}
 
-    Character& Character::operator=(const Character& other)
-    {
-        if (this != &other) {
-            name = other.name;
-            location = other.location;
-            hitp = other.hitp;
-        }
-        return *this;
+Character& Character::operator=(const Character& other)
+{
+    if (this != &other) {
+        name = other.name;
+        location = other.location;
+        hitp = other.hitp;
     }
+    return *this;
+}
 
-    Character::Character(Character&& other)noexcept
-        : name(move(other.name)), location(move(other.location)), hitp(move(other.hitp))
-    {
+Character::Character(Character&& other)noexcept
+    : name(move(other.name)), location(move(other.location)), hitp(move(other.hitp))
+{
+    other.hitp = 0;
+}
+
+Character& Character::operator=(Character&& other)noexcept
+{
+    if (this != &other) {
+        name = move(other.name);
+        location = move(other.location);
+        hitp = move(other.hitp);
         other.hitp = 0;
     }
-
-    Character& Character::operator=(Character&& other)noexcept
-    {
-        if (this != &other) {
-            name = move(other.name);
-            location = move(other.location);
-            hitp = move(other.hitp);
-            other.hitp = 0;
-        }
-        return *this;
-    }
+    return *this;
+}
 
 
 int Character::getHP(){
@@ -55,28 +55,32 @@ string Character::getName(){
     return this->name;
 }
 
- 
-
 bool Character::isAlive(){
     return hitp > 0;
 }
 
-double Character::distance(const Character* other) const {
-    return 1.1;
+double Character::distance(Character* other){
+    double distance = this->location.distance(other->location);
+    return distance;
 }
 
 void Character::hit(int amount) {
     hitp -= amount;
 }
 
-
-
-const Point& Character::getLocation() const {
+Point& Character::getLocation(){
     return location;
 }
 
-string Character::print(){
-    return "hii";
+void Character::setLocation(Point location){
+    this->location = location;
 }
+
+string Character::print(){
+    string str_point = this->location.print();
+    string ans = "Name:"+ this->name +", Location:"+ str_point + ", Hit point:"+ to_string(hitp);
+    return ans;
+    
+    }
 
 }
